@@ -1,7 +1,9 @@
 package com.epam.mentoring.lesfree.client;
 
-import com.epam.mentoring.lesfree.facade.Facade;
-import com.epam.mentoring.lesfree.facade.H2Facade;
+import com.epam.mentoring.lesfree.db.DerbyDB;
+import com.epam.mentoring.lesfree.db.H2DB;
+import com.epam.mentoring.lesfree.db.HsqlDB;
+import com.epam.mentoring.lesfree.db.db;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,25 +15,26 @@ import java.sql.*;
 public class Client {
     final static Logger LOG = LoggerFactory.getLogger(Client.class);
 
-    private Facade facade;
+    private db derby;
+    private db h2;
+    private db hsql;
 
-    public Client(Facade facade) {
-        this.facade = facade;
+    public Client() {
+        this.derby = new DerbyDB();
+        this.h2 = new H2DB();
+        this.hsql = new HsqlDB();
     }
 
-    public void testConnection() {
-        try (Connection conn = this.facade.getConnection();
-             Statement stat = conn.createStatement()) {
-            stat.execute("create table test(id int primary key, name varchar(255))");
-            stat.execute("insert into test values(1, 'Hello')");
-            try (ResultSet rs = stat.executeQuery("select * from test")) {
-                while (rs.next()) {
-                    LOG.debug("Reading data from db : [{}]", rs.getString("name"));
-                }
-            }
-        } catch (SQLException e) {
-            LOG.error("Failed to get connection [{}]", e.getMessage());
-        }
+    public void testDerbyDB() {
+        this.derby.testConnection();
+    }
+
+    public void testH2DB() {
+        this.h2.testConnection();
+    }
+
+    public void testHsqlDB() {
+        this.hsql.testConnection();
     }
 
 }

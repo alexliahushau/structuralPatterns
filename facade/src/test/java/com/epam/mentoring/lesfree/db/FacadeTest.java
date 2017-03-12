@@ -1,4 +1,4 @@
-package com.epam.mentoring.lesfree.facade;
+package com.epam.mentoring.lesfree.db;
 
 import com.epam.mentoring.lesfree.client.Client;
 import org.junit.Test;
@@ -12,20 +12,17 @@ public class FacadeTest {
 
     @Test
     public void test_H2() {
-        final Client client = new Client(new H2Facade());
-        client.testConnection();
+        new Client().testH2DB();;
     }
 
     @Test
     public void test_Derby() {
-        final Client client = new Client(new DerbyFacade());
-        client.testConnection();
+        new Client().testDerbyDB();
     }
 
     @Test
     public void test_HyperSQL() {
-        final Client client = new Client(new HsqlFacade());
-        client.testConnection();
+        new Client().testHsqlDB();
     }
 
 }

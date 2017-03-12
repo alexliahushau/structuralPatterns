@@ -1,7 +1,11 @@
-import com.epam.mentoring.lessfree.part.Part;
-import com.epam.mentoring.lessfree.part.impl.PartImpl;
+import com.epam.mentoring.lessfree.Component;
+import com.epam.mentoring.lessfree.composite.Composite;
+import com.epam.mentoring.lessfree.leaf.Leaf;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -11,19 +15,28 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class CompositeTest {
 
+    final static Logger LOG = LoggerFactory.getLogger(CompositeTest.class);
+
     @Test
-    public void test_CompositeGetChildren() {
-        final Part whole = new PartImpl();
+    public void test_Composite() {
 
-        final Part innerPart1 = new PartImpl();
-        final Part innerPart2 = new PartImpl();
-        final Part innerPart3 = new PartImpl();
+        final String[] a = {"1", "2", "3"};
+        final String[] b = {"4", "5", "8", "10"};
+        final Composite ab = new Composite();
 
-        final List children = whole.getChildren();
-        children.add(innerPart1);
-        children.add(innerPart2);
-        children.add(innerPart3);
+        int count = 0;
 
-        assertThat(whole.getChildren().size()).isEqualTo(3);
+        for (String x : a) {
+            for (String y : b) {
+                ab.addChild(new Leaf(x, y));
+                ab.addChild(new Leaf(y, x));
+                count+=2;
+            }
+        }
+
+        ab.print();
+
+        assertThat(count).isEqualTo(a.length*b.length*2);
+
     }
 }

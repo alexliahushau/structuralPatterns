@@ -62,6 +62,7 @@ local.properties
 ######################
 /log/**
 /target/**
+*/target/**
 
 ######################
 # Gradle
@@ -122,6 +123,8 @@ Desktop.ini
 # Logs
 ######################
 /logs/**
+*.log
+*/*.log
 
 ######################
 # Others
